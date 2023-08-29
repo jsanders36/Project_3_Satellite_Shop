@@ -1,0 +1,12 @@
+{
+  "name": "project_3_satellite_shop",
+  "version": "1.0.0",
+  "description": "database of satellites in different orbits for users to shop based on particular filters.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
