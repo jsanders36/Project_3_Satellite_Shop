@@ -62,7 +62,7 @@ export default function Album() {
               align="center"
               color="text.primary"
               gutterBottom
-            >Satellite Solutions
+            >REQUESTS PAGE
             </Typography>
             <Typography variant="h5" align="center" color="white" paragraph>
             </Typography>
