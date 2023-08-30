@@ -18,13 +18,14 @@ app.get('/users', (req, res) => {
 		});
 });
 
-app.get('/users/:id', (req, res) => {
-	knex('users')
-		.select('*')
-		.then((users) => {
-			var userInfo = users.map((user) => user);
-			res.json(userInfo);
-		});
+app.get('/users/:id', async (req, res) => {
+	const userId = req.params.id;
+	try {
+		const userData = await knex('users').where({ id: userId });
+		res.status(200).json(userData)
+	} catch (err) {
+		res.status(500).json({ error: `Cannot retrieve user data by the given user ID: ${userId}`})
+	}
 });
 
 app.get('/assets', (req, res) => {
@@ -37,21 +38,24 @@ app.get('/assets', (req, res) => {
 });
 
 app.get('/assets/:name', async (req, res) => {
-  var assetName = req.params.name;
-  await knex('assets')
-    .where({name: assetName})
-		.select('*')
-		.then(data => res.status(200).json(data))
+  const assetName = req.params.name;
+	try {
+		const assetData = await knex('assets').where({ name: assetName });
+		res.status(200).json(assetData)
+	} catch (err) {
+		res.status(500).json({ error: `Cannot retrieve asset data by the given name: ${assetName}`})
+	}
 });
 
-// app.get('/assets/mission_type', (req, res) => {
-// 	knex('assets')
-// 		.select('*')
-// 		.then((assets) => {
-// 			var assetsByMission = assets.map((asset) => asset.mission_type);
-// 			res.json(assetsByMission);
-// 		});
-// });
+app.get('/assets/mission_type', async (req, res) => {
+	const assetMission = req.params.mission_type;
+	try {
+		const assetData = await knex('assets').where({ mission_type: assetMission });
+		res.status(200).json(assetData)
+	} catch (err) {
+		res.status(500).json({ error: `Cannot retrieve data by the given mission type: ${assetMission}`})
+	}
+});
 
 // app.get('/manufacturers', (req, res) => {
 // 	knex('manufacturer')
