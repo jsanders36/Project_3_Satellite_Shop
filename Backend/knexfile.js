@@ -11,8 +11,8 @@ module.exports = {
       host: '127.0.0.1',
       password: 'docker',
       user: 'postgres',
-      port: 5432, 
-      database: 'satsol'
+      port: 5432,
+      database: 'sat_sols'
     }
   },
 
