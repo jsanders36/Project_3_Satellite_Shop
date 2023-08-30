@@ -3,16 +3,13 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-    return knex.schema.createTable('assets', table => {
+    return knex.schema.createTable('assets_packages', table => {
         table.increments();
-        table.string('name');
-        table.string('mission_type');
-        table.string('orbital_regime');
-        table.string('description');
-        table.string('image');
         table.integer('user_id');
         table.foreign('user_id').references('users.id');
-    })  
+        table.integer('package_id');
+        table.foreign('package_id').references('packages.id');
+    }) 
 };
 
 /**
@@ -20,10 +17,11 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-    return knex.schema.alterTable('assets', table => {
+    return knex.schema.alterTable('assets_packages', table => {
         table.dropForeign('user_id')
+        table.dropForeign('package_id')
     })  
     .then(function() {
-        return knex.schema.dropTableIfExists('assets');
+        return knex.schema.dropTableIfExists('assets_packages');
     });
 };
