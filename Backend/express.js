@@ -9,7 +9,7 @@ app.use(express.json());
 app.get('/users', (req, res) => {
 	knex('users')
 		.select('*')
-		.then((cars) => {
+		.then((users) => {
 			var users = users.map((user) => user);
 			res.json(users);
 		});
