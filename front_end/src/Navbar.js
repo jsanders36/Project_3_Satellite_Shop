@@ -48,6 +48,16 @@ const Navbar = () => {
 						Requests
 					</Button>
 				</li>
+				<li>
+					<Button
+						component={Link}
+						to='/mission_statement'
+						variant='contained'
+						color='primary'
+					>
+						Mission Statement
+					</Button>
+				</li>
 			</ul>
 		</nav>
 	);
