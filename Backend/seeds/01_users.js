@@ -1,9 +1,10 @@
-/**
+ /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.seed = async function (knex) {
+exports.seed = async function(knex) {
   // Deletes ALL existing entries
+  await knex.schema.raw('TRUNCATE users CASCADE');
   await knex('users').del()
   await knex('users').insert([
     { username: 'SolarSail', password: 'Sunny123', is_admin: true, profile_image: 'https://labs.openai.com/s/QJY5khDQ2RZHhbl0als9pLMo' },
