@@ -5,6 +5,7 @@ import AssetList from "./AssetList";
 import MissionStatement from "./MissionStatement";
 import Requests from "./Requests";
 import Packages from "./Packages";
+import AssetDetails from "./AssetDetails";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/asset_list" element={<AssetList />} />
+        <Route path="/asset_list/:id" element={<AssetDetails />} />
         <Route path="/mission_statement" element={<MissionStatement />} />
         <Route path="/requests" element={<Requests />} />
         <Route path="/packages" element={<Packages />} />
