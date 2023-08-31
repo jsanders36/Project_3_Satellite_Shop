@@ -17,7 +17,12 @@ function Dropdown({ label, url, dataType }) {
 				return response.json();
 			})
 			.then((data) => {
-				setData(data);
+				const uniqueData = data.filter(
+					(item, index, self) =>
+						self.findIndex((t) => t[dataType] === item[dataType]) === index
+				);
+
+				setData(uniqueData);
 			})
 			.catch((error) => {
 				console.error('Error fetching data:', error);
