@@ -4,6 +4,7 @@
  */
 exports.seed = async function(knex) {
   // Deletes ALL existing entries
+  await knex.schema.raw('TRUNCATE assets CASCADE');
   await knex('assets').del()
   await knex('assets').insert([
     {name: 'SR-1 Normandy', mission_type: 'Orbital Warfare', orbital_regime: 'MEO', description: 'The SR-1 Normandy is a prototype "deep scout" frigate, first of the eponymous Normandy class, co-developed by the Alliance and the Turian Hierarchy with the sponsorship of the Citadel Council.', image: 'https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/11/Normandy-SR1-over-planet.jpg', users_id: 1},

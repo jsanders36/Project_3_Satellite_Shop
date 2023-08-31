@@ -61,13 +61,26 @@ app.get('/assets/:mission_type', async (req, res) => {
 	}
 });
 
-app.get('/packages', (req, res) => {
-	knex('packages')
+app.get('/packages', async (req, res) => {
+	var packageData = await knex('packages')
 		.select('*')
-		.then((packages) => {
-			var allPackages = assets.map((package) => package);
-			res.json(allPackages);
-		});
+		.then((packages) => packages)
+	var assets_packagesData = await knex('assets_packages')
+		.select('*')
+		.where('packages_id', '=', '1')
+		.then((assets_packages) => assets_packages)
+		//filter, reduce
+	console.log(packageData)
+	var assetArray = [];
+	assets_packagesData.forEach(function(arrayItem) {
+		assetArray.push(arrayItem.assets_id)
+		console.log(assetArray)
+	})
+	packageData.forEach(function(arrayItem) {
+		arrayItem['asset_ids'] = assetArray;
+	})
+	
+	res.status(200).send(packageData);
 });
 
 app.get('/packages/:id', async (req, res) => {
