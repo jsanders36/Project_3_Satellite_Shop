@@ -21,6 +21,7 @@ import { useState } from 'react';
 import Dropdown from './Dropdown';
 import { useNavigate } from 'react-router-dom';
 import { useAssetContext } from './addToPackage';
+import { Link as RouterLink } from 'react-router-dom';
 
 function Home() {
   return (
@@ -123,50 +124,45 @@ export default function AssetList() {
               <AssetDetails asset={currentAsset} resetView={resetView} />
             ) : (
               <Grid container spacing={4}>
-                {assetData.map((asset) => (
-                  <Grid item key={asset.id} xs={12} sm={6} md={4}>
-                    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-
-                      <CardMedia
-                        component="img"
-                        sx={{
-                          // 16:9
-                          pt: '56.25%',
-                        }}
-                        image={
-                          asset.image
-                        }
-                        alt={asset.id}
-                      />
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {asset.name}
-                        </Typography>
-                        <Typography>
-                          Sat summary
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          size="small" onClick={() => {
-                            setShowDetails(true);
-                            setCurrentAsset(asset);
-                          }}>
-                          Details
-                        </Button>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          size="small" onClick={() => addToPackage(asset)}>
-                          Add to Package
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
+  {assetData && assetData.map((asset) => (
+    <Grid item key={asset.id} xs={12} sm={6} md={4}>
+      <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <CardMedia
+          component="img"
+          sx={{ pt: '56.25%' }}
+          image={asset.image}
+          alt={asset.id}
+        />
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Typography gutterBottom variant="h5" component="h2">
+            {asset.name}
+          </Typography>
+          <Typography>
+            Sat summary
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button
+            component={RouterLink}
+            to={`/asset_list/${asset.id}`}  // Notice asset.id
+            variant="contained"
+            color="primary"
+          >
+            Details
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={() => addToPackage(asset)}
+          >
+            Add to Package
+          </Button>
+        </CardActions>
+      </Card>
+    </Grid>
+  ))}
+</Grid>
             )}
           </Container>
         </Box>
