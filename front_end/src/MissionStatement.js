@@ -14,16 +14,15 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Navbar from './Navbar';
 
 function Home() {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
+    <Typography variant="body2" color="white" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-       Project 3: Team 1
-      </Link>{' '}
+      <Link color="rgba(0, 0, 0, 1)" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+        Project 3: Team 1
+      </Link>{' SDI#18 '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -32,22 +31,18 @@ function Home() {
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
-
 export default function Album() {
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
+    <>
       <AppBar position="relative">
         <Toolbar>
-      <Navbar />
+          <Navbar />
         </Toolbar>
       </AppBar>
       <main>
         <Box
           sx={{
-            backgroundImage: 'url(https://www.geospatialworld.net/wp-content/uploads/2023/05/catagory_satellite_banner.jpg)',
+            backgroundImage: 'url(https://cdn.wallpapersafari.com/88/66/Uowyg0.jpg)',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
@@ -55,12 +50,17 @@ export default function Album() {
             pb: 6,
           }}
         >
-          <Container maxWidth="lg" bgcolor= 'rgba(0, 0, 0, 0.7)'>
+          <Container sx={{
+            bgcolor: 'rgba(0, 0, 0, 0.5)',
+            pt: 8,
+            pb: 6,
+          }}
+          maxWidth="lg">
             <Typography
               component="h1"
               variant="h2"
               align="center"
-              color="text.primary"
+              color="white"
               gutterBottom
             >MISSION STATEMENT
             </Typography>
@@ -102,67 +102,28 @@ Global Reach: Leverage our worldwide network of partners and suppliers to receiv
 <Typography variant="h5" align="center" color="white" paragraph>
 Your mission is critical; the stakes are high. Choose "Satellite Solutions" to ensure that you have the assets you need to achieve and sustain space superiority, today and into the future.
             </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button variant="contained">This needs to be a drop down</Button>
-              <Button variant="outlined">This needs to be a drop down</Button>
-            </Stack>
           </Container>
         </Box>
-        <Container sx={{ py: 8 }} maxWidth="md">
-          {/* End hero unit */}
-          <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card
-                  sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                >
-                  <CardMedia
-                    component="div"
-                    sx={{
-                      // 16:9
-                      pt: '56.25%',
-                    }}
-                    image="https://u4d2z7k9.rocketcdn.me/wp-content/uploads/2020/03/Webp.net-resizeimage-51.jpg"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Sat 1-10
-                    </Typography>
-                    <Typography>
-                      Sat details
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
       </main>
       {/* Footer */}
-      <Box sx={{ bgcolor: 'purple', p: 6 }} component="footer">
+      <Box sx={{
+        bgcolor: 'primary.main',
+        pt: 8,
+        pb: 6,
+      }}
+        component="footer">
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
         </Typography>
         <Typography
           variant="subtitle1"
           align="center"
-          color="text.secondary"
+          color="white"
           component="p"
         >
-          Something here to give the footer a purpose!
         </Typography>
         <Home />
       </Box>
       {/* End footer */}
-    </ThemeProvider>
+    </>
   );
 }
