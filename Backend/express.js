@@ -29,6 +29,12 @@ app.get('/users/:id', async (req, res) => {
 	}
 });
 
+app.get('/assets', (req, res) => {
+  knex('assets')
+    .select('*')
+    .then((assets) => res.status(200).json(assets));
+});
+
 app.get('/assets', async (req, res) => {
 	let assetNameSearch = req.query;
 	console.log(Boolean(assetNameSearch))
@@ -78,7 +84,7 @@ app.get('/assets/:mission_type', async (req, res) => {
 app.get('/packages', async (req, res) => {
 	var packageData = await knex('packages')
 		.select('*')
-		.then((packages) => packages)	
+		.then((packages) => packages)
 	res.status(200).send(packageData);
 });
 
