@@ -68,13 +68,17 @@ app.get('/assets/:mission_type', async (req, res) => {
 app.get('/packages', async (req, res) => {
 	var packageData = await knex('packages')
 		.select('*')
-		.then((packages) => packages)
+		.then((packages) => packages)	
+	res.status(200).send(packageData);
+});
+
+app.get('/packages/:id', async (req, res) => {
+	const packageId = req.params.id;
+	const packageData = await knex('packages').where({ id: packageId });
 	var assets_packagesData = await knex('assets_packages')
 		.select('*')
-		.where('packages_id', '=', '1')
+		.where('packages_id', '=', packageId)
 		.then((assets_packages) => assets_packages)
-	//filter, reduce
-	console.log(packageData)
 	var assetArray = [];
 	assets_packagesData.forEach(function (arrayItem) {
 		assetArray.push(arrayItem.assets_id)
