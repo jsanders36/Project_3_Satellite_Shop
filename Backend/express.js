@@ -28,10 +28,7 @@ app.get('/users/:id', async (req, res) => {
 app.get('/assets', (req, res) => {
 	knex('assets')
 		.select('*')
-		.then((assets) => {
-			var allAssets = assets.map((asset) => asset);
-			res.json(allAssets);
-		});
+		.then((assets) => res.status(200).json(assets));
 });
 
 app.get('/assets/:id', async (req, res) => {

@@ -10,8 +10,8 @@ exports.up = function(knex) {
         table.string('orbital_regime');
         table.string('description');
         table.string('image');
-        table.integer('user_id');
-        table.foreign('user_id').references('users.id');
+        table.integer('users_id');
+        table.foreign('users_id').references(`users.id`);
     })  
 };
 
@@ -21,7 +21,7 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
     return knex.schema.alterTable('assets', table => {
-        table.dropForeign('user_id')
+        table.dropForeign('users_id')
     })  
     .then(function() {
         return knex.schema.dropTableIfExists('assets');
