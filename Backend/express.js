@@ -1,10 +1,14 @@
 const express = require('express');
 const knex = require('knex')
-    (require('./knexfile.js')['development'])
+	(require('./knexfile.js')['development'])
 const knexfile = require('./knexfile.js')
 const app = express();
 const port = 8085;
+var cors = require('cors');
+
+
 app.use(express.json());
+app.use(cors());
 
 app.get('/users', (req, res) => {
 	knex('users')
@@ -21,7 +25,7 @@ app.get('/users/:id', async (req, res) => {
 		const userData = await knex('users').where({ id: userId });
 		res.status(200).json(userData)
 	} catch (err) {
-		res.status(500).json({ error: `Cannot retrieve user data by the given user ID: ${userId}`})
+		res.status(500).json({ error: `Cannot retrieve user data by the given user ID: ${userId}` })
 	}
 });
 
@@ -37,17 +41,17 @@ app.get('/assets/:id', async (req, res) => {
 		const assetData = await knex('assets').where({ id: assetId });
 		res.status(200).json(assetData)
 	} catch (err) {
-		res.status(500).json({ error: `Cannot retrieve user data by the given user ID: ${assetId}`})
+		res.status(500).json({ error: `Cannot retrieve user data by the given user ID: ${assetId}` })
 	}
 });
 
 app.get('/assets/:name', async (req, res) => {
-  const assetName = req.params.name;
+	const assetName = req.params.name;
 	try {
 		const assetData = await knex('assets').where({ name: assetName });
 		res.status(200).json(assetData)
 	} catch (err) {
-		res.status(500).json({ error: `Cannot retrieve asset data by the given name: ${assetName}`})
+		res.status(500).json({ error: `Cannot retrieve asset data by the given name: ${assetName}` })
 	}
 });
 
@@ -57,7 +61,7 @@ app.get('/assets/:mission_type', async (req, res) => {
 		const assetData = await knex('assets').where({ mission_type: assetMission });
 		res.status(200).json(assetData)
 	} catch (err) {
-		res.status(500).json({ error: `Cannot retrieve data by the given mission type: ${assetMission}`})
+		res.status(500).json({ error: `Cannot retrieve data by the given mission type: ${assetMission}` })
 	}
 });
 
@@ -69,17 +73,17 @@ app.get('/packages', async (req, res) => {
 		.select('*')
 		.where('packages_id', '=', '1')
 		.then((assets_packages) => assets_packages)
-		//filter, reduce
+	//filter, reduce
 	console.log(packageData)
 	var assetArray = [];
-	assets_packagesData.forEach(function(arrayItem) {
+	assets_packagesData.forEach(function (arrayItem) {
 		assetArray.push(arrayItem.assets_id)
 		console.log(assetArray)
 	})
-	packageData.forEach(function(arrayItem) {
+	packageData.forEach(function (arrayItem) {
 		arrayItem['asset_ids'] = assetArray;
 	})
-	
+
 	res.status(200).send(packageData);
 });
 
@@ -89,17 +93,17 @@ app.get('/packages/:id', async (req, res) => {
 		const packageData = await knex('packages').where({ id: packageId });
 		res.status(200).json(packageData)
 	} catch (err) {
-		res.status(500).json({ error: `Cannot retrieve user data by the given user ID: ${packageId}`})
+		res.status(500).json({ error: `Cannot retrieve user data by the given user ID: ${packageId}` })
 	}
 });
 
 app.get('/packages/:name', async (req, res) => {
-  const packageName = req.params.name;
+	const packageName = req.params.name;
 	try {
 		const packageData = await knex('packages').where({ name: packageName });
 		res.status(200).json(packageData)
 	} catch (err) {
-		res.status(500).json({ error: `Cannot retrieve asset data by the given name: ${packageName}`})
+		res.status(500).json({ error: `Cannot retrieve asset data by the given name: ${packageName}` })
 	}
 });
 

@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Navbar from './Navbar';
+import AssetFetch from './AssetFetch';
+import { useParams } from 'react-router-dom'
 
 function Home() {
   return (
@@ -31,7 +33,9 @@ function Home() {
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function Album() {
+export default function AssetList() {
+  // const {  } = useParams();
+  const { assetData, error } = AssetFetch()
   return (
     <>
       <AppBar position="relative">
@@ -92,22 +96,25 @@ export default function Album() {
             }}
             maxWidth="lg">
             <Grid container spacing={4}>
-              {cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
+              {assetData.map((asset) => (
+                <Grid item key={asset.id} xs={12} sm={6} md={4}>
                   <Card
                     sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
                   >
                     <CardMedia
-                      component="div"
+                      component="img"
                       sx={{
                         // 16:9
                         pt: '56.25%',
                       }}
-                      image="https://u4d2z7k9.rocketcdn.me/wp-content/uploads/2020/03/Webp.net-resizeimage-51.jpg"
+                      image={
+                        asset.image
+                      }
+                      alt={asset.id}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography gutterBottom variant="h5" component="h2">
-                        Sat 1-10
+                        {asset.name}
                       </Typography>
                       <Typography>
                         Sat details
