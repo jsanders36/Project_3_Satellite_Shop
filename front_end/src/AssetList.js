@@ -16,10 +16,11 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Navbar from './Navbar';
 import AssetFetch from './AssetFetch';
-import { useParams } from 'react-router-dom'
 import AssetDetails from './AssetDetails';
 import { useState } from 'react';
 import Dropdown from './Dropdown';
+import { useNavigate } from 'react-router-dom';
+import { useAssetContext } from './addToPackage';
 
 function Home() {
   return (
@@ -42,6 +43,14 @@ export default function AssetList() {
 
   // const {  } = useParams();
   const { assetData, error } = AssetFetch()
+
+  const { addAsset, setAddAsset } =
+    useAssetContext();
+  const navigate = useNavigate();
+
+  const addToPackage = (asset) => {
+    navigate('/packages');
+  };
   return (
     <>
       <AppBar position="relative">
@@ -83,16 +92,16 @@ export default function AssetList() {
               spacing={2}
               justifyContent="center"
             >
-             <Dropdown
-								label='Mission Type'
-								url='http://localhost:8085/assets'
-								dataType={'mission_type'}
-							/>
-							<Dropdown
-								label='Orbital Regime'
-								url='http://localhost:8085/assets'
-								dataType={'orbital_regime'}
-							/>
+              <Dropdown
+                label='Mission Type'
+                url='http://localhost:8085/assets'
+                dataType={'mission_type'}
+              />
+              <Dropdown
+                label='Orbital Regime'
+                url='http://localhost:8085/assets'
+                dataType={'orbital_regime'}
+              />
             </Stack>
           </Container>
         </Box>
@@ -104,51 +113,51 @@ export default function AssetList() {
           backgroundPosition: 'center',
           py: 8
         }}>
-           <Container sx={{ py: 8 }} maxWidth="lg">
-          {showDetails ? (
-            <AssetDetails asset={currentAsset} />
-          ) : (
-            <Grid container spacing={4}>
-              {assetData.map((asset) => (
-                <Grid item key={asset.id} xs={12} sm={6} md={4}>
-                  <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <Container sx={{ py: 8 }} maxWidth="lg">
+            {showDetails ? (
+              <AssetDetails asset={currentAsset} />
+            ) : (
+              <Grid container spacing={4}>
+                {assetData.map((asset) => (
+                  <Grid item key={asset.id} xs={12} sm={6} md={4}>
+                    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 
-                    <CardMedia
-                      component="img"
-                      sx={{
-                        // 16:9
-                        pt: '56.25%',
-                      }}
-                      image={
-                        asset.image
-                      }
-                      alt={asset.id}
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {asset.name}
-                      </Typography>
-                      <Typography>
-                        Sat summary
-                      </Typography>
-                    </CardContent>
+                      <CardMedia
+                        component="img"
+                        sx={{
+                          // 16:9
+                          pt: '56.25%',
+                        }}
+                        image={
+                          asset.image
+                        }
+                        alt={asset.id}
+                      />
+                      <CardContent sx={{ flexGrow: 1 }}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {asset.name}
+                        </Typography>
+                        <Typography>
+                          Sat summary
+                        </Typography>
+                      </CardContent>
                       <CardActions>
-                      <Button size="small" onClick={() => {
-                        setShowDetails(true);
-                        setCurrentAsset(asset);
-                      }}>
-                        Details
-                      </Button>
-                      {/* <Button size="small" onClick={() => addToPackage(asset)}>
-                        Add to Package
-                      </Button> */}
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-        </Container>
+                        <Button size="small" onClick={() => {
+                          setShowDetails(true);
+                          setCurrentAsset(asset);
+                        }}>
+                          Details
+                        </Button>
+                        <Button size="small" onClick={() => addToPackage(asset)}>
+                          Add to Package
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            )}
+          </Container>
         </Box>
       </main>
       {/* Footer */}
@@ -173,4 +182,3 @@ export default function AssetList() {
     </>
   );
 }
-// add
