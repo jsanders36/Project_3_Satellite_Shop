@@ -29,10 +29,20 @@ app.get('/users/:id', async (req, res) => {
 	}
 });
 
-app.get('/assets', (req, res) => {
-	knex('assets')
-		.select('*')
-		.then((assets) => res.status(200).json(assets));
+app.get('/assets', async (req, res) => {
+	let assetNameSearch = req.query;
+	console.log(Boolean(assetNameSearch))
+	console.log(assetNameSearch)
+	if(assetNameSearch !== false) {
+		console.log('running query')
+		knex('assets')
+			.select('*').where('name', 'ilike', `%${assetNameSearch.name}%`)
+			.then((assets) => res.status(200).json(assets));
+	} else {
+		knex('assets')
+			.select('*')
+			.then((assets) => res.status(200).json(assets));
+	}
 });
 
 app.get('/assets/:id', async (req, res) => {
