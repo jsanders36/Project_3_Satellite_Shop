@@ -17,6 +17,9 @@ import Link from '@mui/material/Link';
 import Navbar from './Navbar';
 import AssetFetch from './AssetFetch';
 import { useParams } from 'react-router-dom'
+import AssetDetails from './AssetDetails';
+import { useState } from 'react';
+import Dropdown from './Dropdown';
 
 function Home() {
   return (
@@ -34,6 +37,9 @@ function Home() {
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default function AssetList() {
+  const [showDetails, setShowDetails] = useState(false);
+  const [currentAsset, setCurrentAsset] = useState(null);
+
   // const {  } = useParams();
   const { assetData, error } = AssetFetch()
   return (
@@ -77,8 +83,16 @@ export default function AssetList() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">This needs to be a drop down</Button>
-              <Button variant="outlined">This needs to be a drop down</Button>
+             <Dropdown
+								label='Mission Type'
+								url='http://localhost:8085/assets'
+								dataType={'mission_type'}
+							/>
+							<Dropdown
+								label='Orbital Regime'
+								url='http://localhost:8085/assets'
+								dataType={'orbital_regime'}
+							/>
             </Stack>
           </Container>
         </Box>
@@ -90,17 +104,15 @@ export default function AssetList() {
           backgroundPosition: 'center',
           py: 8
         }}>
-          <Container
-            sx={{
-              py: 8
-            }}
-            maxWidth="lg">
+           <Container sx={{ py: 8 }} maxWidth="lg">
+          {showDetails ? (
+            <AssetDetails asset={currentAsset} />
+          ) : (
             <Grid container spacing={4}>
               {assetData.map((asset) => (
                 <Grid item key={asset.id} xs={12} sm={6} md={4}>
-                  <Card
-                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                  >
+                  <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+
                     <CardMedia
                       component="img"
                       sx={{
@@ -117,18 +129,26 @@ export default function AssetList() {
                         {asset.name}
                       </Typography>
                       <Typography>
-                        Sat details
+                        Sat summary
                       </Typography>
                     </CardContent>
-                    <CardActions>
-                      <Button size="small">View</Button>
-                      <Button size="small">Edit</Button>
+                      <CardActions>
+                      <Button size="small" onClick={() => {
+                        setShowDetails(true);
+                        setCurrentAsset(asset);
+                      }}>
+                        Details
+                      </Button>
+                      {/* <Button size="small" onClick={() => addToPackage(asset)}>
+                        Add to Package
+                      </Button> */}
                     </CardActions>
                   </Card>
                 </Grid>
               ))}
             </Grid>
-          </Container>
+          )}
+        </Container>
         </Box>
       </main>
       {/* Footer */}
@@ -153,3 +173,4 @@ export default function AssetList() {
     </>
   );
 }
+// add

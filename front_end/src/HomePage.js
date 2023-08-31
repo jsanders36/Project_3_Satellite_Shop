@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Navbar from './Navbar';
+import Dropdown from './Dropdown';
 
 function Home() {
   return (
@@ -72,8 +73,16 @@ export default function Album() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">This needs to be a drop down</Button>
-              <Button variant="outlined">This needs to be a drop down</Button>
+              <Dropdown
+								label='Mission Type'
+								url='http://localhost:8085/assets'
+								dataType={'mission_type'}
+							/>
+							<Dropdown
+								label='Orbital Regime'
+								url='http://localhost:8085/assets'
+								dataType={'orbital_regime'}
+							/>
             </Stack>
           </Container>
         </Box>
@@ -145,3 +154,4 @@ export default function Album() {
     </>
   );
 }
+// add
