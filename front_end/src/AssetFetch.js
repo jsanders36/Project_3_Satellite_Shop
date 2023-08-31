@@ -15,6 +15,7 @@ const AssetFetch = (name) => {
                     throw new Error("Asset name not found");
                 }
                 const data = await response.json();
+                console.log('Fetched data:', data);
                 setAssetData(data);
 
             } catch (error) {
@@ -23,7 +24,7 @@ const AssetFetch = (name) => {
             }
         }
         fetchData();
-    }, [name]);
+    }, []);
 
     return { assetData, error };
 };

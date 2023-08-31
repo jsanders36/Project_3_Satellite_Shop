@@ -16,6 +16,8 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Navbar from './Navbar';
 import Dropdown from './Dropdown';
+import { useAssetContext } from './addToPackage';
+
 
 function Home() {
   return (
@@ -32,7 +34,11 @@ function Home() {
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function Album() {
+export default function Packages() {
+  const { addAsset } = useAssetContext();
+  console.log("addAsset:", addAsset);
+
+
   return (
     <>
       <AppBar position="relative">
@@ -63,6 +69,15 @@ export default function Album() {
               gutterBottom
             >PACKAGES
             </Typography>
+            {/* <Box sx={{ padding: '20px' }}>
+              <Typography variant="h4">Packages</Typography>
+              {addAsset.map((asset) => (
+                <div key={asset.name}>
+                  <Typography>{asset.name}</Typography>
+                  {console.log(asset.name)}
+                </div>
+              ))}
+            </Box> */}
             <Typography variant="h5" align="center" color="white" paragraph>
             </Typography>
             <Typography variant="h5" align="center" color="white" paragraph>
@@ -75,15 +90,15 @@ export default function Album() {
               justifyContent="center"
             >
               <Dropdown
-								label='Mission Type'
-								url='http://localhost:8085/assets'
-								dataType={'mission_type'}
-							/>
-							<Dropdown
-								label='Orbital Regime'
-								url='http://localhost:8085/assets'
-								dataType={'orbital_regime'}
-							/>
+                label='Mission Type'
+                url='http://localhost:8085/assets'
+                dataType={'mission_type'}
+              />
+              <Dropdown
+                label='Orbital Regime'
+                url='http://localhost:8085/assets'
+                dataType={'orbital_regime'}
+              />
             </Stack>
           </Container>
         </Box>
@@ -95,6 +110,14 @@ export default function Album() {
           backgroundPosition: 'center',
           py: 8
         }}>
+          <Box sx={{ padding: '20px', maxHeight: '200px', overflowY: 'scroll', bgcolor: 'white' }}>
+            <Typography variant="h6">Packages:</Typography>
+            <ul>
+              {addAsset.map((asset) => (
+                <li key={asset.id}>{asset.name}</li>
+              ))}
+            </ul>
+          </Box>
           <Container
             sx={{
               py: 8
@@ -125,5 +148,5 @@ export default function Album() {
       {/* End footer */}
     </>
   );
+
 }
-// add

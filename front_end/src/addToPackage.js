@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-export const AssetContext = React.createContext();
+export const AssetContext = createContext();
 
 
 
