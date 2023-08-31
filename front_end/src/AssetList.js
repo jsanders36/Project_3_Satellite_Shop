@@ -41,6 +41,11 @@ export default function AssetList() {
   const [showDetails, setShowDetails] = useState(false);
   const [currentAsset, setCurrentAsset] = useState(null);
 
+  function resetView() {
+    setShowDetails(false);
+    setCurrentAsset(null);
+  }
+
   // const {  } = useParams();
   const { assetData, error } = AssetFetch()
 
@@ -115,7 +120,7 @@ export default function AssetList() {
         }}>
           <Container sx={{ py: 8 }} maxWidth="lg">
             {showDetails ? (
-              <AssetDetails asset={currentAsset} />
+              <AssetDetails asset={currentAsset} resetView={resetView} />
             ) : (
               <Grid container spacing={4}>
                 {assetData.map((asset) => (
@@ -142,13 +147,19 @@ export default function AssetList() {
                         </Typography>
                       </CardContent>
                       <CardActions>
-                        <Button size="small" onClick={() => {
-                          setShowDetails(true);
-                          setCurrentAsset(asset);
-                        }}>
+                        <Button
+                          variant='contained'
+                          color='primary'
+                          size="small" onClick={() => {
+                            setShowDetails(true);
+                            setCurrentAsset(asset);
+                          }}>
                           Details
                         </Button>
-                        <Button size="small" onClick={() => addToPackage(asset)}>
+                        <Button
+                          variant='contained'
+                          color='primary'
+                          size="small" onClick={() => addToPackage(asset)}>
                           Add to Package
                         </Button>
                       </CardActions>
