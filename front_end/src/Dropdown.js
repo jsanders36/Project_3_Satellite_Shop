@@ -8,8 +8,6 @@ function Dropdown({ label, url, dataType }) {
 	const [selectedValue, setSelectedValue] = useState('');
 	const [data, setData] = useState([]);
 
-	const url = 'http://localhost:8085/assets';
-
 	useEffect(() => {
 		fetch(url)
 			.then((response) => {
@@ -32,11 +30,14 @@ function Dropdown({ label, url, dataType }) {
 
 	return (
 		<div>
-			<FormControl variant='filled' sx={{ m: 1, minWidth: 120 }}>
-				<InputLabel id={`${label.toLowerCase()}-label`}>{label}</InputLabel>
+			<FormControl variant='filled' sx={{ m: 1, minWidth: 160 }}>
+				<InputLabel id={`${label}`} style={{ color: 'blue' }}>
+					{label}
+				</InputLabel>
 				<Select
-					labelId={`${label.toLowerCase()}-label`}
-					id={`${label.toLowerCase()}-select`}
+					style={{ backgroundColor: '#2196f3', color: 'white' }}
+					labelId={`${label}`}
+					id={`${label}-select`}
 					value={selectedValue}
 					onChange={handleChange}
 				>
