@@ -55,6 +55,9 @@ export default function AssetList() {
   const navigate = useNavigate();
 
   const addToPackage = (asset) => {
+    setAddAsset((prevAddAsset) => [...prevAddAsset, asset]);
+    console.log("Asset added to package:", asset);
+    console.log('addtoPackage function called');
     navigate('/packages');
   };
   return (
@@ -124,45 +127,45 @@ export default function AssetList() {
               <AssetDetails asset={currentAsset} resetView={resetView} />
             ) : (
               <Grid container spacing={4}>
-  {assetData && assetData.map((asset) => (
-    <Grid item key={asset.id} xs={12} sm={6} md={4}>
-      <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <CardMedia
-          component="img"
-          sx={{ pt: '56.25%' }}
-          image={asset.image}
-          alt={asset.id}
-        />
-        <CardContent sx={{ flexGrow: 1 }}>
-          <Typography gutterBottom variant="h5" component="h2">
-            {asset.name}
-          </Typography>
-          <Typography>
-            Sat summary
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button
-            component={RouterLink}
-            to={`/asset_list/${asset.id}`}  // Notice asset.id
-            variant="contained"
-            color="primary"
-          >
-            Details
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={() => addToPackage(asset)}
-          >
-            Add to Package
-          </Button>
-        </CardActions>
-      </Card>
-    </Grid>
-  ))}
-</Grid>
+                {assetData && assetData.map((asset) => (
+                  <Grid item key={asset.id} xs={12} sm={6} md={4}>
+                    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                      <CardMedia
+                        component="img"
+                        sx={{ pt: '56.25%' }}
+                        image={asset.image}
+                        alt={asset.id}
+                      />
+                      <CardContent sx={{ flexGrow: 1 }}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {asset.name}
+                        </Typography>
+                        <Typography>
+                          Sat summary
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button
+                          component={RouterLink}
+                          to={`/asset_list/${asset.id}`}  // Notice asset.id
+                          variant="contained"
+                          color="primary"
+                        >
+                          Details
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="small"
+                          onClick={() => addToPackage(asset)}
+                        >
+                          Add to Package
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
             )}
           </Container>
         </Box>
