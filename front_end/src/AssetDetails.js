@@ -9,5 +9,5 @@ const AssetDetails = () => {
 			</div>
 	);
 };
-
+// add
 export default AssetDetails;
