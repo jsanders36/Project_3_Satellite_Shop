@@ -7,8 +7,8 @@ exports.up = function(knex) {
         table.increments();
         table.integer('assets_id');
         table.foreign('assets_id').references(`assets.id`);
-        table.integer('package_id');
-        table.foreign('package_id').references(`packages.id`);
+        table.integer('packages_id');
+        table.foreign('packages_id').references(`packages.id`);
     }) 
 };
 
@@ -19,7 +19,7 @@ exports.up = function(knex) {
 exports.down = function(knex) {
     return knex.schema.alterTable('assets_packages', table => {
         table.dropForeign('assets_id')
-        table.dropForeign('package_id')
+        table.dropForeign('packages_id')
     })  
     .then(function() {
         return knex.schema.dropTableIfExists('assets_packages');
