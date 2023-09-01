@@ -4,8 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-function Dropdown({ label, url, dataType }) {
-	const [selectedValue, setSelectedValue] = useState('');
+function Dropdown({ label, url, dataType, selectedValue, setSelectedValue }) {
 	const [data, setData] = useState([]);
 
 	useEffect(() => {
