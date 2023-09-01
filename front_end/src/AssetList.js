@@ -171,17 +171,18 @@ export default function AssetList() {
 						) : (
 							<Grid container spacing={4}>
 								{filteredAssets.map((asset) => (
-									<Grid item key={asset.id} xs={12} sm={6} md={4}>
+									<Grid item key={asset.id} xs={12} sm={6} md={4} xl={3}>
 										<Card
 											sx={{
 												height: '100%',
 												display: 'flex',
 												flexDirection: 'column',
+												border: '1px solid #2196f3',
+												boxShadow: '0 0 20px rgba(33, 150, 243, 0.9)',
 											}}
 										>
 											<CardMedia
 												component='img'
-												sx={{ pt: '56.25%' }}
 												image={asset.image}
 												alt={asset.id}
 											/>
