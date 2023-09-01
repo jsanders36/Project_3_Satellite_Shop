@@ -43,7 +43,7 @@ export default function Packages() {
   const [packageNameInput, setPackageNameInput] = useState('');
 
   const packageDatabase = "http://localhost:8085/packages";
-  const requestDatabase = "http://localhost:8085/assets_packages";
+  const joinTableDatabase = "http://localhost:8085/assets_packages";
 
   const handleDescriptionChange = (e) => {
     setPackageDescriptionInput(e.target.value);
@@ -53,10 +53,10 @@ export default function Packages() {
     setPackageNameInput(e.target.value);
   }
 
-  const packageSubmission = () => {
-    console.log('packageDescriptionInput:', packageDescriptionInput)
-    console.log('packageNameInput:', packageNameInput)
-    fetch(packageDatabase, {
+  const packageSubmission = async () => {
+    let numPackagesInDb;
+
+    await fetch(packageDatabase, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +69,25 @@ export default function Packages() {
       })
     })
     .then((response) => response.json())
-    .then((json) => console.log(json));
+
+    await fetch(packageDatabase)
+    .then((response) => response.json())
+    .then((packageDbLength) => numPackagesInDb = packageDbLength.length)
+
+    let numSatsToSend = addAsset.length;
+    for(let i = 0; i < numSatsToSend; i++) {
+      await fetch(joinTableDatabase, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "assets_id": addAsset[i].id,
+          "packages_id": numPackagesInDb
+        })
+      })
+      .then((response) => response.json())
+    }
   }
 
   return (
