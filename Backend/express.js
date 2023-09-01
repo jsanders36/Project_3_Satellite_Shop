@@ -116,16 +116,6 @@ app.get('/packages/:id', async (req, res) => {
 	res.status(200).send(packageData);
 });
 
-app.get('/packages/:id', async (req, res) => {
-	const packageId = req.params.id;
-	try {
-		const packageData = await knex('packages').where({ id: packageId });
-		res.status(200).json(packageData)
-	} catch (err) {
-		res.status(500).json({ error: `Cannot retrieve user data by the given user ID: ${packageId}` })
-	}
-});
-
 app.get('/packages/:name', async (req, res) => {
 	const packageName = req.params.name;
 	try {
@@ -135,6 +125,12 @@ app.get('/packages/:name', async (req, res) => {
 		res.status(500).json({ error: `Cannot retrieve asset data by the given name: ${packageName}` })
 	}
 });
+
+app.get('/assets_packages', (req, res) => {
+	knex('assets_packages')
+	.select('*')
+	.then(data => res.json(data))
+})
 
 app.post('/users', (req, res) => {
 	const newUser = req.body;
@@ -156,9 +152,17 @@ app.post('/packages', (req, res) => {
 	const newPackage = req.body;
 	knex('packages')
 		.insert(newPackage)
-		.then(() => res.status(201).json('Your mission package, ${newPackage.name}, has been created.'))
+		.then(() => res.status(201).json(`Your mission package, ${newPackage.name}, has been created.`))
 		.catch((err) => res.status(500).json(err));
 });
+
+app.post('/assets_packages', (req, res) => {
+	const newAssets_package = req.body;
+	knex('assets_packages')
+		.insert(newAssets_package)
+		.then(() => res.status(201).json(`Asset added to package.`))
+		.catch((err) => res.status(500).json(err));
+})
 
 app.put('/users/:id', (req, res) => {
 	const id = req.params.id;
