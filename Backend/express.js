@@ -29,22 +29,21 @@ app.get('/users/:id', async (req, res) => {
 	}
 });
 
-app.get('/assets', (req, res) => {
-  knex('assets')
-    .select('*')
-    .then((assets) => res.status(200).json(assets));
-});
-
 app.get('/assets', async (req, res) => {
 	let assetNameSearch = req.query;
-	console.log(Boolean(assetNameSearch))
-	console.log(assetNameSearch)
-	if(assetNameSearch !== false) {
+	let hasQuery;
+	for (let prop in assetNameSearch) {
+		if (Object.hasOwn(assetNameSearch, prop)) {
+			hasQuery = true;
+		}
+	}
+	if(hasQuery === true) {
 		console.log('running query')
 		knex('assets')
 			.select('*').where('name', 'ilike', `%${assetNameSearch.name}%`)
 			.then((assets) => res.status(200).json(assets));
 	} else {
+		console.log('no query, returning all assets')
 		knex('assets')
 			.select('*')
 			.then((assets) => res.status(200).json(assets));
@@ -53,25 +52,35 @@ app.get('/assets', async (req, res) => {
 
 app.get('/assets/:id', async (req, res) => {
 	const assetId = req.params.id;
-	try {
-		const assetData = await knex('assets').where({ id: assetId });
-		res.status(200).json(assetData)
-	} catch (err) {
-		res.status(500).json({ error: `Cannot retrieve user data by the given user ID: ${assetId}` })
+	if((assetId === 'LEO') || (assetId === 'MEO') || (assetId === 'GEO')) {
+		try {
+			const assetData = await knex('assets').where('orbital_regime', 'ilike', `%${assetId}%`);
+			res.status(200).json(assetData)
+		} catch (err) {
+			res.status(500).json({ error: `Cannot retrieve user data by the given user ID: ${assetId}` })
+		}
+	} else {
+		try {
+			const assetData = await knex('assets').where({ id: assetId });
+			res.status(200).json(assetData)
+		} catch (err) {
+			res.status(500).json({ error: `Cannot retrieve user data by the given user ID: ${assetId}` })
+		}
 	}
 });
 
-app.get('/assets/:name', async (req, res) => {
-	const assetName = req.params.name;
-	try {
-		const assetData = await knex('assets').where({ name: assetName });
-		res.status(200).json(assetData)
-	} catch (err) {
-		res.status(500).json({ error: `Cannot retrieve asset data by the given name: ${assetName}` })
-	}
-});
+// app.get('/assets/:name', async (req, res) => {
+// 	const assetName = req.params.name;
+// 	try {
+// 		const assetData = await knex('assets').where({ name: assetName });
+// 		res.status(200).json(assetData)
+// 	} catch (err) {
+// 		res.status(500).json({ error: `Cannot retrieve asset data by the given name: ${assetName}` })
+// 	}
+// });
 
 app.get('/assets/:mission_type', async (req, res) => {
+	console.log(':mission type get')
 	const assetMission = req.params.mission_type;
 	try {
 		const assetData = await knex('assets').where({ mission_type: assetMission });
