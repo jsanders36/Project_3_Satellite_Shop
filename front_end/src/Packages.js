@@ -103,12 +103,12 @@ export default function Packages() {
             <Typography variant="h6">Packages:</Typography>
             <ul>
               {addAsset.map((asset) => (
-                <li key={asset.id}>{asset.name}
+                <li key={asset?.id}>{asset?.name}
                    <Button
                         onClick={(e) => {
                           e.preventDefault();
                           const releasedAsset = addAsset.filter(
-                            (element) => element.id !== asset.id
+                            (element) => element?.id !== asset?.id
                           );
                           setAddAsset(releasedAsset);
                           navigate("/packages");

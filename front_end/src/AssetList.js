@@ -64,7 +64,7 @@ export default function AssetList() {
 		setAddAsset((prevAddAsset) => [...prevAddAsset, asset]);
 		console.log('Asset added to package:', asset);
 		console.log('addtoPackage function called');
-		navigate('/packages');
+
 	};
 
 	const filteredAssets = assetData.filter((asset) => {
