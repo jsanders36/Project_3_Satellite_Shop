@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import CameraIcon from '@mui/icons-material/PhotoCamera';
@@ -38,6 +38,47 @@ export default function Packages() {
   const navigate = useNavigate();
   console.log("addAsset:", addAsset);
 
+  const [selectedAssets, setSelectedAssets] = useState();
+  const [packageDescriptionInput, setPackageDescriptionInput] = useState();
+  const [packageNameInput, setPackageNameInput] = useState();
+
+  const packageDatabase = "http://localhost:8085/packages/";
+  const requestDatabase = "http://localhost:8085/assets_packages/";
+
+  const handleDescriptionChange = (e) => {
+    setPackageDescriptionInput(e.target.value);
+  }
+
+  const handleNameChange= (e) => {
+    setPackageNameInput(e.target.value);
+  }
+
+  const packageSubmission = () => {
+    fetch(packageDatabase, {
+      method: "POST",
+      body: JSON.stringify({
+        name: packageNameInput,
+        mission_description: packageDescriptionInput,
+        approval_status: false,
+        users_id: 1
+      })
+    })
+    .then((response) => response.json())
+    .then((json) => console.log(json));
+  }
+
+//   useEffect(() => {
+//     async function fetchData() {
+//         try {
+
+
+//         } catch (error) {
+//             console.error("Error fetching data:", error);
+//             setError(error.message);
+//         }
+//     }
+//     fetchData();
+// }, [id]);
 
   return (
     <>
@@ -101,7 +142,8 @@ export default function Packages() {
         }}>
           <Box sx={{ padding: '20px', maxHeight: '200px', overflowY: 'scroll', bgcolor: 'white' }}>
             <Typography variant="h6">Packages:</Typography>
-            <ul>
+            <form >
+              <ul>
               {addAsset.map((asset) => (
                 <li key={asset?.id}>{asset?.name}
                    <Button
@@ -116,9 +158,15 @@ export default function Packages() {
                   >
                     Remove Asset From Package
                       </Button>
-                  </li>
+                </li>
               ))}
-            </ul>
+              </ul>
+              <label for="mission_description"> Mission Description
+                <input type="text" id="mission_description" placeholder="Please add a mission description for your package..." onChange={handleDescriptionChange} value={packageDescriptionInput} />
+                <input type="text" id="package_name" placeholder="Name your package..." onChange={handleNameChange} value={packageNameInput} />
+                <button onClick={packageSubmission()}>Submit Package Request</button>
+              </label>
+            </form>
           </Box>
           <Container
             sx={{

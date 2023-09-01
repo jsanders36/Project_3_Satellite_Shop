@@ -22,7 +22,6 @@ import Dropdown from './Dropdown';
 import { useNavigate } from 'react-router-dom';
 import { useAssetContext } from './addToPackage';
 import { Link as RouterLink } from 'react-router-dom';
-import SearchBar from './SearchBar';
 
 function Home() {
 	return (
@@ -44,7 +43,6 @@ function Home() {
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default function AssetList() {
-	const [searchQuery, setSearchQuery] = useState('');
 	const [showDetails, setShowDetails] = useState(false);
 	const [currentAsset, setCurrentAsset] = useState(null);
 
@@ -62,29 +60,29 @@ export default function AssetList() {
 	const { addAsset, setAddAsset } = useAssetContext();
 	const navigate = useNavigate();
 
+	var isAssetInPackage = "";
+
+	function PackageCheck(assetArg) {
+		isAssetInPackage = addAsset.some((assetArg) => assetArg.id === assetData?.id)
+		return isAssetInPackage
+}
+
 	const addToPackage = (asset) => {
 		setAddAsset((prevAddAsset) => [...prevAddAsset, asset]);
 		console.log('Asset added to package:', asset);
 		console.log('addtoPackage function called');
+
 	};
 
 	const filteredAssets = assetData.filter((asset) => {
 		if (
 			(!selectedMissionType || asset.mission_type === selectedMissionType) &&
-			(!selectedOrbitalRegime ||
-				asset.orbital_regime === selectedOrbitalRegime) &&
-			(!searchQuery ||
-				asset.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				asset.mission_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				asset.orbital_regime.toLowerCase().includes(searchQuery.toLowerCase()))
+			(!selectedOrbitalRegime || asset.orbital_regime === selectedOrbitalRegime)
 		) {
 			return true;
 		}
 		return false;
 	});
-	const handleSearch = (query) => {
-		setSearchQuery(query);
-	};
 
 	return (
 		<>
@@ -151,7 +149,6 @@ export default function AssetList() {
 								setSelectedValue={setSelectedOrbitalRegime}
 							/>
 						</Stack>
-						<SearchBar onSearch={handleSearch} />
 					</Container>
 				</Box>
 				<Box
@@ -206,14 +203,29 @@ export default function AssetList() {
 												>
 													Details
 												</Button>
+
 												<Button
+													variant='contained'
+													color='primary'
+													size='small'
+													disabled={isAssetInPackage}
+													onClick={() => {
+														if (asset && !error) {
+															setAddAsset([...addAsset, asset]);
+															PackageCheck(asset);
+														}
+													}}
+													>
+													{isAssetInPackage ? "Already added!" : "Add asset"}
+													</Button>
+												{/* <Button
 													variant='contained'
 													color='primary'
 													size='small'
 													onClick={() => addToPackage(asset)}
 												>
 													Add to Package
-												</Button>
+												</Button> */}
 											</CardActions>
 										</Card>
 									</Grid>
