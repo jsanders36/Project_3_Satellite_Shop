@@ -14,8 +14,9 @@ const AssetFetch = (id) => {
                 if (!response.ok) {
                     throw new Error("Asset name not found");
                 }
-                const data = await response.json();
+                var data = await response.json();
                 console.log('Fetched data:', data);
+                data = data.map((item) => ({...item, isAdded:false}))
                 setAssetData(data);
 
             } catch (error) {
