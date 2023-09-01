@@ -221,7 +221,6 @@ export default function AssetList() {
 												<Button
 													variant='contained'
 													color='primary'
-													size='small'
 													disabled={isAssetInPackage}
 													onClick={() => {
 														if (asset && !error) {
@@ -230,16 +229,8 @@ export default function AssetList() {
 														}
 													}}
 												>
-													{isAssetInPackage ? 'Already added!' : 'Add asset'}
+													{isAssetInPackage ? 'Already added!' : 'Add Asset'}
 												</Button>
-												{/* <Button
-													variant='contained'
-													color='primary'
-													size='small'
-													onClick={() => addToPackage(asset)}
-												>
-													Add to Package
-												</Button> */}
 											</CardActions>
 										</Card>
 									</Grid>
