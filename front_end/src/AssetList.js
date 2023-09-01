@@ -17,7 +17,7 @@ import Link from '@mui/material/Link';
 import Navbar from './Navbar';
 import AssetFetch from './AssetFetch';
 import AssetDetails from './AssetDetails';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Dropdown from './Dropdown';
 import { useNavigate } from 'react-router-dom';
 import { useAssetContext } from './addToPackage';
@@ -47,7 +47,7 @@ export default function AssetList() {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [showDetails, setShowDetails] = useState(false);
 	const [currentAsset, setCurrentAsset] = useState(null);
-
+	const [filteredAssets, setFilteredAssets] = useState([]);
 	const [selectedMissionType, setSelectedMissionType] = useState('');
 	const [selectedOrbitalRegime, setSelectedOrbitalRegime] = useState('');
 
@@ -62,14 +62,14 @@ export default function AssetList() {
 	const { addAsset, setAddAsset } = useAssetContext();
 	const navigate = useNavigate();
 
-	var isAssetInPackage = '';
+	// var isAssetInPackage = true;
 
-	function PackageCheck(assetArg) {
-		isAssetInPackage = addAsset.some(
-			(assetArg) => assetArg.id === assetData?.id
-		);
-		return isAssetInPackage;
-	}
+	// function PackageCheck(assetArg) {
+	// 	isAssetInPackage = addAsset.some(
+	// 		(assetArg) => assetArg.id === assetData?.id
+	// 	);
+	// 	return isAssetInPackage;
+	// }
 
 	const addToPackage = (asset) => {
 		setAddAsset((prevAddAsset) => [...prevAddAsset, asset]);
@@ -77,20 +77,27 @@ export default function AssetList() {
 		console.log('addtoPackage function called');
 	};
 
-	const filteredAssets = assetData.filter((asset) => {
-		if (
-			(!selectedMissionType || asset.mission_type === selectedMissionType) &&
-			(!selectedOrbitalRegime ||
-				asset.orbital_regime === selectedOrbitalRegime) &&
-			(!searchQuery ||
-				asset.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				asset.mission_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				asset.orbital_regime.toLowerCase().includes(searchQuery.toLowerCase()))
-		) {
-			return true;
-		}
-		return false;
-	});
+	useEffect(() => {
+
+		const siftedAssets = assetData.filter((asset) => {
+			if (
+				(!selectedMissionType || asset.mission_type === selectedMissionType) &&
+				(!selectedOrbitalRegime ||
+					asset.orbital_regime === selectedOrbitalRegime) &&
+				(!searchQuery ||
+					asset.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+					asset.mission_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+					asset.orbital_regime.toLowerCase().includes(searchQuery.toLowerCase()))
+			) {
+				return true;
+			}
+			return false;
+		});
+
+
+		setFilteredAssets(siftedAssets);
+
+	}, [assetData, selectedOrbitalRegime, selectedMissionType, searchQuery]);
 
 	const handleSearch = (query) => {
 		setSearchQuery(query);
@@ -221,15 +228,17 @@ export default function AssetList() {
 												<Button
 													variant='contained'
 													color='primary'
-													disabled={isAssetInPackage}
+													disabled={asset.isAdded}
 													onClick={() => {
 														if (asset && !error) {
 															setAddAsset([...addAsset, asset]);
-															PackageCheck(asset);
+															asset.isAdded = true;
+															// setFilteredAssets(asset.isAdded);
+															// PackageCheck(asset);
 														}
 													}}
 												>
-													{isAssetInPackage ? 'Already added!' : 'Add Asset'}
+													{asset.isAdded ? 'Already added!' : 'Add Asset'}
 												</Button>
 											</CardActions>
 										</Card>
