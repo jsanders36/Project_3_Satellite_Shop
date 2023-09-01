@@ -150,6 +150,7 @@ app.post('/assets', (req, res) => {
 
 app.post('/packages', (req, res) => {
 	const newPackage = req.body;
+	console.log(newPackage)
 	knex('packages')
 		.insert(newPackage)
 		.then(() => res.status(201).json(`Your mission package, ${newPackage.name}, has been created.`))
