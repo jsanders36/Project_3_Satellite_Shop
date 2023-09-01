@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 
-const AssetFetch = (name) => {
+const AssetFetch = (id) => {
     const [assetData, setAssetData] = useState([]);
     const [error, setError] = useState(null);
 
@@ -24,7 +24,7 @@ const AssetFetch = (name) => {
             }
         }
         fetchData();
-    }, []);
+    }, [id]);
 
     return { assetData, error };
 };

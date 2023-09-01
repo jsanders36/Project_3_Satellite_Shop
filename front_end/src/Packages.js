@@ -17,6 +17,7 @@ import Link from '@mui/material/Link';
 import Navbar from './Navbar';
 import Dropdown from './Dropdown';
 import { useAssetContext } from './addToPackage';
+import { useNavigate } from "react-router-dom";
 
 
 function Home() {
@@ -32,10 +33,9 @@ function Home() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 export default function Packages() {
-  const { addAsset } = useAssetContext();
+  const { addAsset, setAddAsset } = useAssetContext();
+  const navigate = useNavigate();
   console.log("addAsset:", addAsset);
 
 
@@ -88,18 +88,7 @@ export default function Packages() {
               direction="row"
               spacing={2}
               justifyContent="center"
-            >
-              <Dropdown
-                label='Mission Type'
-                url='http://localhost:8085/assets'
-                dataType={'mission_type'}
-              />
-              <Dropdown
-                label='Orbital Regime'
-                url='http://localhost:8085/assets'
-                dataType={'orbital_regime'}
-              />
-            </Stack>
+            ></Stack>
           </Container>
         </Box>
         <Box sx={{
@@ -114,7 +103,20 @@ export default function Packages() {
             <Typography variant="h6">Packages:</Typography>
             <ul>
               {addAsset.map((asset) => (
-                <li key={asset.id}>{asset.name}</li>
+                <li key={asset.id}>{asset.name}
+                   <Button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const releasedAsset = addAsset.filter(
+                            (element) => element.id !== asset.id
+                          );
+                          setAddAsset(releasedAsset);
+                          navigate("/packages");
+                        }}
+                  >
+                    Remove Asset From Package
+                      </Button>
+                  </li>
               ))}
             </ul>
           </Box>
