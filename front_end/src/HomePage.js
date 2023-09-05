@@ -21,6 +21,7 @@ import Checkbox from '@mui/material/Checkbox';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { useNavigate } from "react-router-dom";
 
 
 function Home() {
@@ -41,6 +42,7 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 export default function Album() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const signIn = async () => {
     try {
@@ -54,6 +56,7 @@ export default function Album() {
 
       if (response.ok) {
         const userData = await response.json();
+        navigate('/asset_list');
 
         console.log('Authentication successful', userData);
 
