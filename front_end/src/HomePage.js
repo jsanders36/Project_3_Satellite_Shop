@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import CameraIcon from '@mui/icons-material/PhotoCamera';
@@ -16,6 +16,12 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Navbar from './Navbar';
 import Dropdown from './Dropdown';
+import Avatar from '@mui/material/Avatar';
+import Checkbox from '@mui/material/Checkbox';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
 
 function Home() {
   return (
@@ -33,6 +39,40 @@ function Home() {
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default function Album() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const signIn = async () => {
+    try {
+      const response = await fetch('http://localhost:8085/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+
+        console.log('Authentication successful', userData);
+
+      } else {
+        console.log('Authentication failed');
+
+      }
+    } catch (error) {
+      console.error('An error occurred', error);
+
+    }
+  };
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    signIn();
+  };
+
   return (
     <>
       <AppBar position="relative">
@@ -67,26 +107,27 @@ export default function Album() {
             <Typography variant="h5" align="center" color="white" paragraph>
               Achieving and Sustaining Space Superiority: Your Mission is Our Commitment.
             </Typography>
-            <Stack
+            {/* <Stack
               sx={{ pt: 4 }}
               direction="row"
               spacing={2}
               justifyContent="center"
             >
               <Dropdown
-								label='Mission Type'
-								url='http://localhost:8085/assets'
-								dataType={'mission_type'}
-							/>
-							<Dropdown
-								label='Orbital Regime'
-								url='http://localhost:8085/assets'
-								dataType={'orbital_regime'}
-							/>
-            </Stack>
-          </Container>
-        </Box>
-        <Box sx={{
+                label='Mission Type'
+                url='http://localhost:8085/assets'
+                dataType={'mission_type'}
+              />
+              <Dropdown
+                label='Orbital Regime'
+                url='http://localhost:8085/assets'
+                dataType={'orbital_regime'}
+              />
+            </Stack> */}
+            {/* <Satellite Cards> */}
+            {/* </Container>
+        </Box> */}
+            {/* <Box sx={{
           bgcolor: 'rgba(0, 0, 0, 0.9)',
           backgroundImage: 'url(https://cdn.wallpapersafari.com/88/66/Uowyg0.jpg)',
           backgroundSize: 'cover',
@@ -128,17 +169,132 @@ export default function Album() {
                   </Card>
                 </Grid>
               ))}
-            </Grid>
+            </Grid> */}
+            {/* <Satellite Cards> */}
+
+            {/* <Sign-in> */}
+            <Container component="main" maxWidth="xs">
+              <CssBaseline />
+              <Box
+                sx={{
+                  marginTop: 8,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  color: 'white',
+                }}
+              >
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Sign in
+                </Typography>
+                <form onSubmit={handleSubmit} noValidate className="form">
+                  <Box>
+                    <TextField
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          color: 'white',
+                          '& fieldset': {
+                            borderColor: '#2196f3',
+                            borderWidth: 4,
+                          },
+                          '&:hover fieldset': {
+                            borderColor: '#2196f3',
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: '#1d72db',
+                            borderWidth: 4,
+                          },
+                        },
+                        '& .MuiInputLabel-root': {
+                          color: 'white',
+                        },
+                      }}
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="username"
+                      label="Username"
+                      name="username"
+                      autoComplete="username"
+                      autoFocus
+                      variant="outlined"
+                      size='medium'
+
+                    />
+                    <TextField
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          color: 'white',
+                          '& fieldset': {
+                            borderColor: '#2196f3',
+                            borderWidth: 4,
+                          },
+                          '&:hover fieldset': {
+                            borderColor: '#2196f3',
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: '#1d72db',
+                            borderWidth: 4,
+                          },
+                        },
+                        '& .MuiInputLabel-root': {
+                          color: 'white',
+                        },
+                      }}
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                      variant="outlined"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox value="remember" color="primary" />}
+                      label="Remember me"
+                    />
+
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                    >
+                      Sign In
+                    </Button>
+                    <Grid container>
+                      <Grid item xs>
+                        <Link href="#" variant="body2">
+                          Forgot password?
+                        </Link>
+                      </Grid>
+                      <Grid item>
+                        <Link href="#" variant="body2">
+                          {"Don't have an account? Sign Up"}
+                        </Link>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </form>
+              </Box>
+            </Container>
+            {/* <Sign-In> */}
           </Container>
-        </Box>
-      </main>
+        </Box >
+      </main >
       {/* Footer */}
-      <Box sx={{
+      < Box sx={{
         bgcolor: 'primary.main',
         pt: 8,
         pb: 6,
-      }}
-        component="footer">
+      }
+      }
+        component="footer" >
         <Typography variant="h6" align="center" gutterBottom>
         </Typography>
         <Typography
@@ -149,9 +305,8 @@ export default function Album() {
         >
         </Typography>
         <Home />
-      </Box>
+      </Box >
       {/* End footer */}
     </>
   );
 }
-// add
