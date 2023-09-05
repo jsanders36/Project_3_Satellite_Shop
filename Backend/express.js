@@ -5,10 +5,18 @@ const knexfile = require('./knexfile.js')
 const app = express();
 const port = 8085;
 var cors = require('cors');
+var cookieSession = require('cookie-session');
 
 
 app.use(express.json());
 app.use(cors());
+
+app.use(cookieSession({
+	name: 'user_submittedPackage',
+	httpOnly: true,
+	sameSite: 'strict',
+	keys: ['secretKey']
+}))
 
 app.get('/users', (req, res) => {
 	knex('users')
@@ -153,7 +161,10 @@ app.post('/packages', (req, res) => {
 	console.log(newPackage)
 	knex('packages')
 		.insert(newPackage)
-		.then(() => res.status(201).json(`Your mission package, ${newPackage.name}, has been created.`))
+		.then(() => {
+			res.status(201).json(`Your mission package, ${newPackage.name}, has been created.`)
+			req.session.package = req.body
+		})
 		.catch((err) => res.status(500).json(err));
 });
 
