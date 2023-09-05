@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import CameraIcon from '@mui/icons-material/PhotoCamera';
@@ -39,6 +39,39 @@ function Home() {
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default function Album() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const signIn = async () => {
+    try {
+      const response = await fetch('http://localhost:8085/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+
+        console.log('Authentication successful', userData);
+
+      } else {
+        console.log('Authentication failed');
+
+      }
+    } catch (error) {
+      console.error('An error occurred', error);
+
+    }
+  };
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    signIn();
+  };
 
   return (
     <>
@@ -157,95 +190,97 @@ export default function Album() {
                 <Typography component="h1" variant="h5">
                   Sign in
                 </Typography>
-                <Box>
-                  <TextField
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        color: 'white',
-                        '& fieldset': {
-                          borderColor: '#2196f3',
-                          borderWidth: 4,
+                <form onSubmit={handleSubmit} noValidate className="form">
+                  <Box>
+                    <TextField
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          color: 'white',
+                          '& fieldset': {
+                            borderColor: '#2196f3',
+                            borderWidth: 4,
+                          },
+                          '&:hover fieldset': {
+                            borderColor: '#2196f3',
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: '#1d72db',
+                            borderWidth: 4,
+                          },
                         },
-                        '&:hover fieldset': {
-                          borderColor: '#2196f3',
+                        '& .MuiInputLabel-root': {
+                          color: 'white',
                         },
-                        '&.Mui-focused fieldset': {
-                          borderColor: '#1d72db',
-                          borderWidth: 4,
-                        },
-                      },
-                      '& .MuiInputLabel-root': {
-                        color: 'white',
-                      },
-                    }}
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="username"
-                    label="Username"
-                    name="username"
-                    autoComplete="username"
-                    autoFocus
-                    variant="outlined"
-                    size='medium'
+                      }}
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="username"
+                      label="Username"
+                      name="username"
+                      autoComplete="username"
+                      autoFocus
+                      variant="outlined"
+                      size='medium'
 
-                  />
-                  <TextField
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        color: 'white',
-                        '& fieldset': {
-                          borderColor: '#2196f3',
-                          borderWidth: 4,
+                    />
+                    <TextField
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          color: 'white',
+                          '& fieldset': {
+                            borderColor: '#2196f3',
+                            borderWidth: 4,
+                          },
+                          '&:hover fieldset': {
+                            borderColor: '#2196f3',
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: '#1d72db',
+                            borderWidth: 4,
+                          },
                         },
-                        '&:hover fieldset': {
-                          borderColor: '#2196f3',
+                        '& .MuiInputLabel-root': {
+                          color: 'white',
                         },
-                        '&.Mui-focused fieldset': {
-                          borderColor: '#1d72db',
-                          borderWidth: 4,
-                        },
-                      },
-                      '& .MuiInputLabel-root': {
-                        color: 'white',
-                      },
-                    }}
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    variant="outlined"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Remember me"
-                  />
+                      }}
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                      variant="outlined"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox value="remember" color="primary" />}
+                      label="Remember me"
+                    />
 
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    Sign In
-                  </Button>
-                  <Grid container>
-                    <Grid item xs>
-                      <Link href="#" variant="body2">
-                        Forgot password?
-                      </Link>
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                    >
+                      Sign In
+                    </Button>
+                    <Grid container>
+                      <Grid item xs>
+                        <Link href="#" variant="body2">
+                          Forgot password?
+                        </Link>
+                      </Grid>
+                      <Grid item>
+                        <Link href="#" variant="body2">
+                          {"Don't have an account? Sign Up"}
+                        </Link>
+                      </Grid>
                     </Grid>
-                    <Grid item>
-                      <Link href="#" variant="body2">
-                        {"Don't have an account? Sign Up"}
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </Box>
+                  </Box>
+                </form>
               </Box>
             </Container>
             {/* <Sign-In> */}
